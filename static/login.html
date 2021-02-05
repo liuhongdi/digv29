@@ -1,0 +1,59 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title >标题</title>
+    <meta charset="utf-8" />
+    <script type="text/javascript" language="JavaScript" src="jquery-1.6.2.min.js"></script>
+</head>
+<body>
+<div id="content" style="width:800px;">
+    <div style="width:250px;float:left;font-size: 16px;" ></div>
+    <div style="width:550px;float:left;">
+        <!--====================main begin=====================-->
+        <input type="text" id="username" placeholder="请输入用户名" /><br/><br/>
+        <input type="password" id="password" placeholder="请输入密码" /><br/><br/>
+        <input type="button" value="登录" onclick="goLogin()"/>
+        <!--====================main   end=====================-->
+    </div>
+</div>
+<script>
+    //访问8080:/home/home
+    function goLogin(){
+
+        var postdata = {
+            username:document.getElementById("username").value,
+            password:document.getElementById("password").value,
+        }
+
+        console.log(postdata)
+
+        $.ajax({
+            type:"POST",
+            url:"http://127.0.0.1:8080/user/login",
+            data:postdata,
+            //返回数据的格式
+            datatype: "json",//"xml", "html", "script", "json", "jsonp", "text".
+            //processData: false,
+            //contentType: false,
+            //成功返回之后调用的函数
+            success:function(data){
+                alert(data);
+                if (data.code == 0){
+                    alert("访问成功");
+                } else {
+                    alert("出错:"+data.msg);
+                }
+            },
+            //调用执行后调用的函数
+            complete: function(XMLHttpRequest, textStatus){
+            },
+            //调用出错执行的函数
+            error:function(jqXHR,textStatus,errorThrown){
+                console.log(jqXHR);
+                console.log(textStatus);
+                console.log(errorThrown);
+            }
+        });
+    }
+</script>
+</body>
+</html>
